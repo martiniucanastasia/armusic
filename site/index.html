@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>armusic</title>
+  <meta name="description" content="Calendario de eventos y contacto de armusic.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <nav>
+      <span class="brand" id="brand"></span>
+      <span><a href="#calendario">Calendario</a><a href="#contacto">Contacto</a></span>
+    </nav>
+    <div class="hero-text">
+      <h1 id="hero-title"></h1>
+      <p id="tagline"></p>
+      <a class="btn" href="#calendario">Ver calendario</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="calendario">
+      <h2>Calendario</h2>
+      <div id="chips" class="chips"></div>
+      <div class="cal-head">
+        <button id="prev" aria-label="Mes anterior">‹</button>
+        <h3 id="month"></h3>
+        <button id="next" aria-label="Mes siguiente">›</button>
+      </div>
+      <div id="grid" class="grid"></div>
+      <div id="agenda" class="agenda"></div>
+
+      <h2 class="spaced">Últimas actualizaciones</h2>
+      <ul id="updates" class="updates"></ul>
+      <p id="generated" class="muted"></p>
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p>¿Quieres cotizar o reservar una fecha? Escríbenos.</p>
+      <div id="contact-buttons" class="buttons"></div>
+    </section>
+  </main>
+
+  <footer><span id="year"></span> armusic</footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

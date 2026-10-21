@@ -1,0 +1,79 @@
+:root {
+  --bg: #0d0b14;
+  --card: #181426;
+  --line: #2a2440;
+  --text: #f3f0fa;
+  --muted: #9b94b3;
+  --accent: #ff4fa3;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: inherit; }
+
+/* Put a party photo at site/assets/hero.jpg; the gradient shows until it exists. */
+.hero {
+  min-height: 78vh; display: flex; flex-direction: column; padding: 0 16px;
+  background:
+    linear-gradient(180deg, rgba(13,11,20,.35) 0%, rgba(13,11,20,.85) 85%, var(--bg) 100%),
+    url("assets/hero.jpg") center / cover no-repeat,
+    radial-gradient(circle at 20% 20%, #5b1d8f, transparent 55%),
+    radial-gradient(circle at 80% 70%, #ff4fa3, transparent 50%),
+    #1a1030;
+}
+nav { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; width: 100%; margin: 0 auto; padding: 18px 0; }
+nav a { text-decoration: none; margin-left: 20px; font-size: 15px; }
+.brand { font-weight: 800; letter-spacing: .5px; font-size: 20px; }
+.hero-text { margin: auto 0 56px; max-width: 1000px; width: 100%; align-self: center; }
+.hero h1 { font-size: clamp(40px, 9vw, 84px); line-height: 1; margin: 0 0 12px; }
+.hero p { font-size: clamp(17px, 3vw, 22px); color: #ddd6f3; margin: 0 0 24px; }
+
+.btn, .buttons a { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; padding: 12px 22px; border-radius: 999px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+.buttons a.alt { background: transparent; border: 1px solid var(--line); }
+
+main { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+section { padding: 48px 0; }
+h2 { font-size: 28px; margin: 0 0 16px; }
+h2.spaced { margin-top: 48px; }
+.muted { color: var(--muted); font-size: 14px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.chip { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.chip[aria-pressed="false"] { opacity: .4; }
+
+.cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.cal-head h3 { margin: 0; font-size: 20px; }
+.cal-head h3::first-letter { text-transform: uppercase; }
+.cal-head button { background: var(--card); border: 1px solid var(--line); color: var(--text); width: 40px; height: 40px; border-radius: 10px; font-size: 22px; cursor: pointer; }
+
+.grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.dow { text-align: center; color: var(--muted); font-size: 12px; padding: 6px 0; }
+.day { background: var(--card); border: 1px solid transparent; border-radius: 10px; min-height: 72px; padding: 6px; text-align: left; color: var(--text); cursor: pointer; font: inherit; font-size: 13px; overflow: hidden; }
+.day.out { opacity: .35; }
+.day.today { border-color: var(--accent); }
+.day.sel { background: #2a2147; }
+.day .n { font-weight: 600; }
+.day .ev { display: block; margin-top: 3px; padding: 1px 5px; border-radius: 4px; background: color-mix(in srgb, var(--c) 35%, transparent); border-left: 3px solid var(--c); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day .more { font-size: 11px; color: var(--muted); }
+.dots { display: none; gap: 3px; margin-top: 4px; flex-wrap: wrap; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+
+.agenda { margin-top: 20px; display: grid; gap: 10px; }
+.agenda h4 { margin: 0; color: var(--muted); font-weight: 600; text-transform: capitalize; }
+.item { background: var(--card); border-left: 4px solid var(--c); border-radius: 10px; padding: 12px 14px; }
+.item b { display: block; }
+.item span { color: var(--muted); font-size: 14px; }
+
+.updates { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 10px; }
+.updates li { background: var(--card); border-left: 4px solid var(--c); border-radius: 10px; padding: 12px 14px; }
+.updates small { color: var(--muted); display: block; }
+
+footer { text-align: center; color: var(--muted); padding: 32px 0; font-size: 14px; }
+
+@media (max-width: 640px) {
+  .day { min-height: 52px; padding: 4px; }
+  .day .ev, .day .more { display: none; }
+  .dots { display: flex; }
+}

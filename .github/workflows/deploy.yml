@@ -1,0 +1,46 @@
+name: Sync Basecamp and deploy site
+
+on:
+  schedule:
+    - cron: '0 11 * * *' # daily, 05:00 Mexico City
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Pull calendar from Basecamp
+        run: npm run sync:ci
+        env:
+          BASECAMP_CLIENT_ID: ${{ secrets.BASECAMP_CLIENT_ID }}
+          BASECAMP_CLIENT_SECRET: ${{ secrets.BASECAMP_CLIENT_SECRET }}
+          BASECAMP_ACCOUNT_ID: ${{ secrets.BASECAMP_ACCOUNT_ID }}
+          BASECAMP_REFRESH_TOKEN: ${{ secrets.BASECAMP_REFRESH_TOKEN }}
+          BASECAMP_USER_AGENT: ${{ secrets.BASECAMP_USER_AGENT }}
+          OUTPUT_FILE: site/calendar.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
