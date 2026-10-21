@@ -111,30 +111,13 @@ function renderGrid() {
 function renderAgenda() {
   const box = $('agenda')
   box.replaceChildren()
-  const prefix = `${state.year}-${String(state.month + 1).padStart(2, '0')}-`
-  const keys = state.selected ? [state.selected] : [...state.byDay.keys()].filter((k) => k.startsWith(prefix)).sort()
-  if (!keys.length) {
-    box.append(el('p', { className: 'muted', textContent: 'No hay eventos en este periodo.' }))
-    return
-  }
-  for (const k of keys) {
+  // no month-wide listing: details only appear for a day the visitor clicks
+  if (!state.selected) return
+  for (const k of [state.selected]) {
     const evs = (state.byDay.get(k) ?? []).slice().sort((a, b) => a.start.localeCompare(b.start))
     box.append(el('h4', { textContent: longDayFmt.format(keyToDate(k)) }))
     if (!evs.length) box.append(el('p', { className: 'muted', textContent: 'Sin eventos.' }))
     evs.forEach((e) => box.append(itemNode(e)))
-  }
-}
-
-function renderUpdates() {
-  const list = $('updates')
-  list.replaceChildren()
-  for (const e of state.data.latestUpdates.filter((u) => state.colors.has(u.scope)).slice(0, 8)) {
-    const when = longDayFmt.format(keyToDate(dayKey(e.start, e.allDay)))
-    const li = el('li', {}, el('b', { textContent: e.title }),
-      el('small', { textContent: `${e.scope} · ${when}` }),
-      el('small', { textContent: `Actualizado ${ago(e.updatedAt)}` }))
-    li.style.setProperty('--c', color(e.scope))
-    list.append(li)
   }
 }
 
@@ -185,8 +168,6 @@ async function main() {
   $('next').onclick = () => step(1)
   indexEvents()
   render()
-  renderUpdates()
-  $('generated').textContent = `Sincronizado con Basecamp: ${new Intl.DateTimeFormat('es-MX', { timeZone: TZ, dateStyle: 'medium', timeStyle: 'short' }).format(new Date(state.data.generatedAt))}`
 }
 
 main()
