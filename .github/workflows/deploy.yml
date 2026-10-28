@@ -2,7 +2,7 @@ name: Sync Basecamp and deploy site
 
 on:
   schedule:
-    - cron: '0 11 * * *' # daily, 05:00 Mexico City
+    - cron: '0 14 * * *' # daily, 08:00 Mexico City (UTC-6, no daylight saving)
   workflow_dispatch:
   push:
     branches: [main]
