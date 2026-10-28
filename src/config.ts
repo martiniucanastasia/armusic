@@ -15,7 +15,9 @@ export const config = {
   userAgent: () => required('BASECAMP_USER_AGENT'),
   pastDays: () => Number(process.env.PAST_DAYS ?? 30),
   futureDays: () => Number(process.env.FUTURE_DAYS ?? 365),
-  includeDescription: () => flag('INCLUDE_DESCRIPTION', false),
+  /** Fixed last day to publish (YYYY-MM-DD). Overrides FUTURE_DAYS. */
+  endDate: () => process.env.END_DATE ?? '2040-12-31',
+  includeDescription: () => flag('INCLUDE_DESCRIPTION', true),
   includeAssigned: () => flag('INCLUDE_ASSIGNED', true),
   outputFile: () => process.env.OUTPUT_FILE ?? 'out/calendar.json',
   tokenFile: () => process.env.TOKEN_FILE ?? '.tokens.json',

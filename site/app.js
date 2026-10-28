@@ -1,5 +1,5 @@
 const TZ = 'America/Mexico_City'
-const PALETTE = ['#ff4fa3', '#7c5cff', '#2dd4bf', '#f59e0b', '#38bdf8', '#a3e635', '#f97316', '#e879f9', '#34d399', '#fb7185', '#facc15']
+const PALETTE = ['#4f9be0', '#2bb3c0', '#7b8cf0', '#39b58a', '#5bc0de', '#3f7fbf', '#8fa6e8', '#6cc3a9', '#a58be0', '#f0a860', '#6aa7d8']
 
 const dayFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ }) // YYYY-MM-DD
 const timeFmt = new Intl.DateTimeFormat('es-MX', { timeZone: TZ, hour: 'numeric', minute: '2-digit' })
@@ -46,8 +46,10 @@ const color = (scope) => state.colors.get(scope) ?? '#888'
 const timeLabel = (e) => (e.allDay ? 'Todo el día' : timeFmt.format(new Date(e.start)))
 
 function itemNode(e) {
-  const item = el('div', { className: 'item' }, el('b', { textContent: e.title }),
-    el('span', { textContent: `${timeLabel(e)} · ${e.scope}${e.assigned?.length ? ' · ' + e.assigned.join(', ') : ''}` }))
+  const meta = `${timeLabel(e)} · ${e.scope}${e.assigned?.length ? ' · ' + e.assigned.join(', ') : ''}`
+  const item = el('div', { className: 'item' }, el('b', { textContent: e.title }))
+  if (e.description) item.append(el('p', { className: 'desc', textContent: e.description }))
+  item.append(el('span', { textContent: meta }))
   item.style.setProperty('--c', color(e.scope))
   return item
 }

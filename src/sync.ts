@@ -2,7 +2,7 @@ import { mkdir, rename, writeFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
 import { Basecamp } from './basecamp.js'
 import { config } from './config.js'
-import { SCOPES, findScope } from './scopes.js'
+import { SCOPES, findScope, isHidden, publicDescription } from './scopes.js'
 
 interface Person {
   id: number
@@ -54,7 +54,7 @@ async function main() {
   // Basecamp 2 rejects windows longer than 6 weeks, so fetch in 40-day chunks
   const events: CalendarEvent[] = []
   const seen = new Set<string>()
-  const end = addDays(now, config.futureDays())
+  const end = new Date(`${config.endDate()}T00:00:00Z`)
   for (let from = addDays(now, -config.pastDays()); from < end; from = addDays(from, 41)) {
     const to = addDays(from, 40)
     const chunk = await bc.listPages<CalendarEvent>('/calendar_events.json', {
@@ -82,6 +82,8 @@ async function main() {
     .filter((e) => !e.private && !e.trashed)
     // only the scopes listed in scopes.ts are published
     .filter((e) => findScope(e.bucket.name))
+    // internal items (payments, flights, rent...) listed in HIDE_TITLE_WORDS
+    .filter((e) => !isHidden(e.summary))
     .map((e) => {
       const master = e.recurrence ? masters.get(e.recurrence.master.id) : undefined
       const src = { ...master, ...e }
@@ -92,7 +94,7 @@ async function main() {
       scope: findScope(e.bucket.name)!.label,
       group: findScope(e.bucket.name)!.group,
       title: e.summary,
-      ...(config.includeDescription() && { description: e.description ?? '' }),
+      ...(config.includeDescription() && { description: publicDescription(e.description) }),
       allDay: e.all_day,
       start: e.starts_at,
       end: e.ends_at,

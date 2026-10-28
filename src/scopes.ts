@@ -32,3 +32,25 @@ const byName = new Map(SCOPES.flatMap((s) => s.match.map((m) => [norm(m), s] as 
 
 /** Returns the allowed scope for a Basecamp bucket name, or undefined if it must not be published. */
 export const findScope = (bucketName: string) => byName.get(norm(bucketName))
+
+// Internal events: any title containing one of these words is never published.
+// (comparison ignores case and accents)
+export const HIDE_TITLE_WORDS = ['Pagar', 'Vuelo', 'Cobrar', 'Recoger dinero']
+
+const lower = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+const hideWords = HIDE_TITLE_WORDS.map(lower)
+export const isHidden = (title: string) => hideWords.some((w) => lower(title).includes(w))
+
+// Descriptions mentioning money or contracts are never published (the event itself still is).
+const SENSITIVE = /\b(total|saldo|anticipo|contrato|usd|mxn|eur|pesos|dolares|precio|costo)\b|\$\s?\d/
+
+/** Clean text for the public calendar, or undefined if there is nothing safe to show. */
+export function publicDescription(raw: string | null | undefined): string | undefined {
+  const text = (raw ?? '')
+    .replace(/Add an optional note\s*$/i, '') // placeholder Basecamp leaves in the field
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/[ \t]+/g, ' ')
+    .trim()
+  if (!text || SENSITIVE.test(lower(text))) return undefined
+  return text
+}
