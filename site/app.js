@@ -1,5 +1,3 @@
-import { CONFIG } from './config.js'
-
 const TZ = 'America/Mexico_City'
 const PALETTE = ['#ff4fa3', '#7c5cff', '#2dd4bf', '#f59e0b', '#38bdf8', '#a3e635', '#f97316', '#e879f9', '#34d399', '#fb7185', '#facc15']
 
@@ -54,22 +52,6 @@ function itemNode(e) {
   return item
 }
 
-function renderChips() {
-  const box = $('chips')
-  box.replaceChildren()
-  for (const s of state.data.scopes) {
-    const chip = el('button', { className: 'chip', type: 'button' }, el('i'), s.label)
-    chip.style.setProperty('--c', color(s.label))
-    chip.setAttribute('aria-pressed', String(state.active.has(s.label)))
-    chip.onclick = () => {
-      state.active.has(s.label) ? state.active.delete(s.label) : state.active.add(s.label)
-      indexEvents()
-      render()
-    }
-    box.append(chip)
-  }
-}
-
 function renderGrid() {
   const { year, month } = state
   $('month').textContent = monthFmt.format(new Date(Date.UTC(year, month, 1)))
@@ -122,27 +104,11 @@ function renderAgenda() {
 }
 
 function render() {
-  renderChips()
   renderGrid()
   renderAgenda()
 }
 
-function renderContact() {
-  const { email, whatsapp, instagram } = CONFIG.contact
-  const box = $('contact-buttons')
-  if (email) box.append(el('a', { href: `mailto:${email}`, textContent: 'Escribir por correo' }))
-  if (whatsapp) box.append(el('a', { href: `https://wa.me/${whatsapp}`, textContent: 'WhatsApp', className: 'alt', rel: 'noopener' }))
-  if (instagram) box.append(el('a', { href: `https://instagram.com/${instagram}`, textContent: 'Instagram', className: 'alt', rel: 'noopener' }))
-  if (!box.children.length) box.append(el('p', { className: 'muted', textContent: 'Datos de contacto próximamente.' }))
-}
-
 async function main() {
-  $('brand').textContent = CONFIG.brand
-  $('hero-title').textContent = CONFIG.brand
-  $('tagline').textContent = CONFIG.tagline
-  $('year').textContent = new Date().getFullYear()
-  document.title = CONFIG.brand
-  renderContact()
   try {
     const res = await fetch('calendar.json', { cache: 'no-cache' })
     if (!res.ok) throw new Error(res.status)

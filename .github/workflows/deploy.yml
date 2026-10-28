@@ -38,6 +38,8 @@ jobs:
           BASECAMP_REFRESH_TOKEN: ${{ secrets.BASECAMP_REFRESH_TOKEN }}
           BASECAMP_USER_AGENT: ${{ secrets.BASECAMP_USER_AGENT }}
           OUTPUT_FILE: site/calendar.json
+      - name: Cache-bust site assets
+        run: sed -i "s/__V__/${GITHUB_SHA::8}/g" site/index.html site/page.js
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -8,18 +8,17 @@ export interface Scope {
 }
 
 export const SCOPES: Scope[] = [
-  { label: 'ProRental', group: 'projects', match: ['ProRental', 'PRo Rental'] },
-  { label: 'Production CDJS', group: 'projects', match: ['Production CDJS', 'Producción CDJS'] },
-  { label: 'Terraza FE', group: 'projects', match: ['Terraza FE'] },
-  { label: 'Equipo Alfa', group: 'projects', match: ['Equipo Alfa'] },
-
-  { label: 'armusic', group: 'armusic', match: ['armusic'] },
-  { label: 'armusic Online', group: 'armusic', match: ['armusic Online'] },
+  { label: 'armusic: Eventos', group: 'armusic', match: ['armusic', 'armusic: Eventos'] },
   { label: 'armusic: Citas / Zooms', group: 'armusic', match: ['armusic: Citas / Zooms'] },
-  { label: 'armusic: Dj Pool', group: 'armusic', match: ['armusic: Dj Pool'] },
   { label: 'armusic: Montajes Eventos', group: 'armusic', match: ['armusic: Montajes Eventos'] },
   { label: 'armusic: Scoutings', group: 'armusic', match: ['armusic: Scoutings'] },
   { label: 'armusic: Seguimientos y Contratos', group: 'armusic', match: ['ARMusic: Seguimientos y Contratos'] },
+  { label: 'armusic: Staff', group: 'armusic', match: ['Equipo Alfa', 'armusic: Staff'] },
+
+  { label: 'Frequency', group: 'projects', match: ['Frequency'] },
+  { label: 'promusic', group: 'projects', match: ['PRo Rental', 'ProRental', 'promusic'] },
+  { label: 'Terraza FE', group: 'projects', match: ['Terraza FE'] },
+  { label: 'Vacaciones / Dias Feriados', group: 'projects', match: ['Vacaciones / Dias Feriados'] },
 ]
 
 const norm = (s: string) =>
