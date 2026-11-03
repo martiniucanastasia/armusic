@@ -147,13 +147,6 @@ footer .eq { position: relative; height: 70px; opacity: .5; }
 .steps b { font-size: 19px; }
 
 /* Servicios */
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
-.cards article { padding: 26px; min-height: 230px; display: flex; flex-direction: column; transition: transform .35s var(--ease), border-color .3s; }
-.cards article:hover { transform: translateY(-6px); border-color: rgba(168, 212, 255, .5); }
-.cards .num { position: absolute; top: 20px; right: 24px; font-size: 13px; letter-spacing: .1em; color: var(--muted); }
-.cards .badge { margin-bottom: auto; }
-.cards h3 { margin-top: 28px; }
-.cards p { margin: 0; color: var(--soft); }
 
 /* Videos rail: vertical (9:16) and horizontal (16:9) cards side by side */
 .rail-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
@@ -225,18 +218,6 @@ footer .eq { position: relative; height: 70px; opacity: .5; }
 /* Contacto */
 .contact-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(24px, 5vw, 64px); margin-top: 20px; }
 .checklist { padding-left: 20px; color: var(--soft); }
-ul.direct { list-style: none; padding: 0; display: grid; gap: 14px; margin: 24px 0 0; }
-ul.direct li { display: flex; align-items: center; gap: 12px; }
-ul.direct a { text-decoration: none; font-weight: 700; }
-ul.direct a:hover { color: var(--sky-2); }
-form#quote { padding: clamp(18px, 3vw, 30px); display: grid; gap: 14px; }
-form#quote label { display: grid; gap: 5px; font-size: 14px; color: var(--muted); }
-form#quote input[type=text], form#quote input[type=date], form#quote input[type=number], form#quote select { background: rgba(255, 255, 255, .06); border: 1px solid var(--line); color: var(--ink); border-radius: 14px; padding: 12px 14px; font: inherit; color-scheme: dark; }
-form#quote input:focus, form#quote select:focus { outline: 2px solid var(--sky); border-color: transparent; }
-form#quote fieldset { border: 1px solid var(--line); border-radius: 16px; display: grid; gap: 8px; padding: 14px; margin: 0; }
-form#quote legend { color: var(--muted); font-size: 14px; padding: 0 6px; }
-form#quote label.check { display: flex; gap: 10px; align-items: center; color: var(--ink); font-size: 15px; }
-form#quote input[type=checkbox] { accent-color: var(--sky); width: 18px; height: 18px; }
 
 footer { text-align: center; color: var(--muted); padding: 10px 20px 40px; font-size: 14px; }
 footer p { margin: 0; }
@@ -266,7 +247,7 @@ dialog#lightbox::backdrop { background: rgba(3, 6, 14, .88); backdrop-filter: bl
 }
 @media (max-width: 640px) {
   .cards { grid-template-columns: 1fr; }
-  .cards article { min-height: 190px; }
+  .svc { aspect-ratio: 4 / 3; }
   .grid { grid-auto-rows: minmax(52px, auto); gap: 3px; }
   .day { min-height: 52px; padding: 4px; border-radius: 10px; }
   .day .ev, .day .more { display: none; }
@@ -286,3 +267,21 @@ section[id], article[id] { scroll-margin-top: 90px; }
   [data-reveal] { opacity: 1; transform: none; transition: none; }
   .flow { transition: none; }
 }
+
+/* Servicios: real photos instead of icons */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+.svc { position: relative; aspect-ratio: 4 / 5; border-radius: 28px; overflow: hidden; border: 1px solid var(--line); isolation: isolate; background: #0b1020; }
+.svc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform 1.2s var(--ease), filter .4s; }
+.svc::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(6, 9, 19, 0) 35%, rgba(6, 9, 19, .88) 100%); }
+.svc:hover img { transform: scale(1.08); filter: saturate(1.15); }
+.svc-body { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 24px; }
+.svc-body h3 { font-size: 22px; margin-bottom: 4px; }
+.svc-body p { margin: 0; color: var(--soft); font-size: 15px; }
+
+/* Contacto: three link cards */
+.contact-cards { display: grid; gap: 14px; align-content: start; }
+.contact-card { display: flex; align-items: center; gap: 18px; padding: 20px 24px; text-decoration: none; transition: transform .3s var(--ease), border-color .3s; }
+.contact-card:hover { transform: translateY(-3px); border-color: rgba(168, 212, 255, .55); }
+.contact-card .bico { width: 52px; height: 52px; flex: none; }
+.contact-card small { display: block; color: var(--muted); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.contact-card b { font-size: clamp(17px, 2.2vw, 22px); overflow-wrap: anywhere; }

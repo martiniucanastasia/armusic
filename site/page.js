@@ -23,33 +23,12 @@ document.querySelectorAll('[data-social]').forEach((a) => {
   if (t !== 'mail') Object.assign(a, { target: '_blank', rel: 'noopener' })
 })
 $('c-wa').href = waLink('Hola, me gustaría cotizar mi evento con armusic.')
-$('c-wa').textContent = `WhatsApp: ${phoneDisplay}`
+$('c-wa-t').textContent = phoneDisplay
 $('c-mail').href = `mailto:${email}`
-$('c-mail').textContent = email
+$('c-mail-t').textContent = email
 $('c-ig').href = `https://instagram.com/${instagram}`
-$('c-ig').textContent = `Instagram: @${instagram}`
+$('c-ig-t').textContent = `@${instagram}`
 $('year').textContent = new Date().getFullYear()
-
-/* The quote form has no server: it builds a message and opens WhatsApp or the mail app */
-function quoteText() {
-  const f = new FormData($('quote'))
-  const line = (label, v) => (v ? `${label}: ${v}` : '')
-  return [
-    'Hola armusic, quiero cotizar un evento.',
-    line('Tipo de evento', f.get('tipo')),
-    line('Fecha', f.get('fecha')),
-    line('Ciudad y lugar', f.get('lugar')),
-    line('Invitados', f.get('invitados')),
-    line('Duración', f.get('duracion')),
-    line('Servicios de interés', f.getAll('svc').join(', ')),
-  ]
-    .filter(Boolean)
-    .join('\n')
-}
-$('send-wa').onclick = () => window.open(waLink(quoteText()), '_blank', 'noopener')
-$('send-mail').onclick = () => {
-  location.href = `mailto:${email}?subject=${encodeURIComponent('Cotización de evento')}&body=${encodeURIComponent(quoteText())}`
-}
 
 /* ---------- lightbox (photos and videos) ---------- */
 const lightbox = $('lightbox')
